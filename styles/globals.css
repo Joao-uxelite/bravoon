@@ -1,0 +1,192 @@
+@import url('https://fonts.googleapis.com/css2?family=Lora:wght@600;700&family=Inter:wght@400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Base Styles */
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply font-sans text-dark bg-white;
+  }
+
+  h1 {
+    @apply font-serif text-h1 font-bold;
+  }
+
+  h2 {
+    @apply font-serif text-h2 font-bold;
+  }
+
+  h3 {
+    @apply font-serif text-h3 font-bold;
+  }
+
+  h4, h5, h6 {
+    @apply font-serif font-semibold;
+  }
+
+  p {
+    @apply font-sans text-body;
+  }
+
+  a {
+    @apply text-primary hover:text-primary-dark transition-colors duration-200;
+  }
+}
+
+/* Component Styles */
+@layer components {
+  /* Button */
+  .btn {
+    @apply inline-block px-8 py-3 rounded-lg font-sans font-semibold text-base transition-all duration-300 ease-out;
+  }
+
+  .btn-primary {
+    @apply btn bg-primary text-white hover:bg-primary-dark hover:scale-102;
+  }
+
+  .btn-secondary {
+    @apply btn bg-secondary text-white hover:bg-dark hover:scale-102;
+  }
+
+  .btn-outline {
+    @apply btn border-2 border-primary text-primary hover:bg-primary hover:text-white;
+  }
+
+  .btn-ghost {
+    @apply btn text-primary hover:bg-neutral-light;
+  }
+
+  .btn:disabled {
+    @apply opacity-50 cursor-not-allowed hover:scale-100;
+  }
+
+  /* Card */
+  .card {
+    @apply bg-neutral-light border border-neutral-medium rounded-card p-6 shadow-card hover:shadow-card-hover hover:scale-102 transition-all duration-300;
+  }
+
+  /* Input */
+  .input {
+    @apply w-full px-4 py-3 rounded-input border border-neutral-medium bg-white text-dark placeholder-neutral-medium focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary focus:ring-opacity-20 transition-all duration-200;
+  }
+
+  .input:disabled {
+    @apply bg-neutral-light cursor-not-allowed;
+  }
+
+  /* Badge */
+  .badge {
+    @apply inline-block px-3 py-1 rounded-full bg-primary text-white text-caption font-semibold;
+  }
+
+  /* Section */
+  .section {
+    @apply py-section px-6 md:px-12 lg:px-20;
+  }
+
+  .section-tablet {
+    @apply md:py-section-tablet;
+  }
+
+  .section-mobile {
+    @apply sm:py-section-mobile;
+  }
+
+  /* Container */
+  .container-max {
+    @apply max-w-7xl mx-auto;
+  }
+
+  /* Grid */
+  .grid-cols-auto {
+    @apply grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6;
+  }
+
+  /* Text Utilities */
+  .text-gradient {
+    @apply bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent;
+  }
+
+  .text-highlight {
+    @apply font-serif font-semibold text-primary;
+  }
+}
+
+/* Animations */
+@layer utilities {
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
+  @keyframes slideInLeft {
+    from {
+      opacity: 0;
+      transform: translateX(-20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+
+  @keyframes pulse-soft {
+    0%, 100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0.8;
+    }
+  }
+
+  .animate-fadeInUp {
+    animation: fadeInUp 0.6s ease-out;
+  }
+
+  .animate-fadeIn {
+    animation: fadeIn 0.8s ease-out;
+  }
+
+  .animate-slideInLeft {
+    animation: slideInLeft 0.6s ease-out;
+  }
+
+  .animate-pulse-soft {
+    animation: pulse-soft 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  }
+
+  /* Hover Scale */
+  .hover\:scale-102:hover {
+    transform: scale(1.02);
+  }
+
+  /* Reduced Motion */
+  @media (prefers-reduced-motion: reduce) {
+    * {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+}
