@@ -6,7 +6,7 @@ import { useInView } from 'react-intersection-observer'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
-import { ArrowRight, CheckCircle, Lock, Zap, Users, Heart, Shield } from 'lucide-react'
+import { ArrowRight, CheckCircle, Lock, Zap, Heart, Shield } from 'lucide-react'
 
 export default function BravoONTeste1() {
   const [scrollY, setScrollY] = useState(0)
