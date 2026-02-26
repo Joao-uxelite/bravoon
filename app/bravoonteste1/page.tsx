@@ -6,10 +6,12 @@ import { useInView } from 'react-intersection-observer'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
-import { ArrowRight, CheckCircle, Lock, Zap, Heart, Shield } from 'lucide-react'
+import { ArrowRight, CheckCircle, ChevronLeft, ChevronRight, Mail, Phone, MapPin } from 'lucide-react'
 
 export default function BravoONTeste1() {
   const [scrollY, setScrollY] = useState(0)
+  const [carouselIndex, setCarouselIndex] = useState(0)
+  const [resourceIndex, setResourceIndex] = useState(0)
 
   React.useEffect(() => {
     const handleScroll = () => setScrollY(window.scrollY)
@@ -35,23 +37,44 @@ export default function BravoONTeste1() {
     visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: 'easeOut' } },
   }
 
+  const videos = [
+    { title: 'Como Começar Seu Tratamento Online', views: '45K' },
+    { title: 'Protocolo Bravo ON Explicado', views: '32K' },
+    { title: 'Histórias de Sucesso - Bravo Hair', views: '28K' },
+    { title: 'Bravo Max: Transformando Vidas', views: '51K' },
+    { title: 'Perguntas Frequentes Respondidas', views: '19K' },
+  ]
+
+  const resources = [
+    { title: 'Guia Completo de Tratamento', type: 'PDF' },
+    { title: 'Checklist de Bem-estar', type: 'Checklist' },
+    { title: 'Protocolo Passo a Passo', type: 'Guide' },
+    { title: 'Histórias de Transformação', type: 'Stories' },
+    { title: 'FAQ Completo', type: 'FAQ' },
+  ]
+
+  const nextVideo = () => setCarouselIndex((prev) => (prev + 1) % videos.length)
+  const prevVideo = () => setCarouselIndex((prev) => (prev - 1 + videos.length) % videos.length)
+  const nextResource = () => setResourceIndex((prev) => (prev + 1) % resources.length)
+  const prevResource = () => setResourceIndex((prev) => (prev - 1 + resources.length) % resources.length)
+
   return (
     <div className="min-h-screen bg-white overflow-hidden">
-      {/* Animated Background */}
-      <div className="fixed inset-0 -z-10">
+      {/* Animated Background Blobs */}
+      <div className="fixed inset-0 -z-10 overflow-hidden">
         <div
-          className="absolute top-0 right-0 w-96 h-96 bg-primary/5 rounded-full blur-3xl"
+          className="absolute top-0 right-0 w-96 h-96 bg-gradient-to-br from-primary/10 to-transparent rounded-full blur-3xl"
           style={{ transform: `translateY(${scrollY * 0.5}px)` }}
         />
         <div
-          className="absolute bottom-0 left-0 w-96 h-96 bg-accent/5 rounded-full blur-3xl"
+          className="absolute bottom-0 left-0 w-96 h-96 bg-gradient-to-tr from-accent/10 to-transparent rounded-full blur-3xl"
           style={{ transform: `translateY(${-scrollY * 0.3}px)` }}
         />
       </div>
 
       {/* Navigation */}
       <motion.nav
-        className="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-neutral-medium"
+        className="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-neutral-200"
         initial={{ y: -100 }}
         animate={{ y: 0 }}
         transition={{ duration: 0.5 }}
@@ -61,201 +84,173 @@ export default function BravoONTeste1() {
             Bravo ON
           </motion.h1>
           <div className="flex gap-4">
-            <Button variant="ghost">Sobre</Button>
-            <Button className="bg-primary hover:bg-primary-dark">Começar</Button>
+            <Button variant="ghost" className="text-neutral-600">
+              Sobre
+            </Button>
+            <Button className="bg-primary hover:bg-primary-dark text-white">
+              Começar
+            </Button>
           </div>
         </div>
       </motion.nav>
 
-      {/* Hero Section */}
-      <section className="relative min-h-screen flex items-center justify-center px-4 sm:px-6 lg:px-8 py-20">
-        <motion.div
-          className="max-w-5xl mx-auto text-center"
-          variants={containerVariants}
-          initial="hidden"
-          animate="visible"
-        >
-          <motion.div variants={itemVariants} className="mb-6 inline-block">
-            <Badge className="bg-primary/10 text-primary border-primary/20">✨ Saúde Digital Revolucionária</Badge>
-          </motion.div>
-
-          <motion.h1 variants={itemVariants} className="text-6xl md:text-7xl font-serif font-bold text-secondary mb-6 leading-tight">
-            Rotina que cabe na vida real.
-            <br />
-            <span className="bg-gradient-to-r from-primary to-primary-dark bg-clip-text text-transparent">
-              Tratamentos online.
-            </span>
-          </motion.h1>
-
-          <motion.p variants={itemVariants} className="text-xl text-neutral-medium max-w-2xl mx-auto mb-4">
-            Sem exposição, sem perda de tempo, sem sair de casa.
-          </motion.p>
-
-          <motion.p variants={itemVariants} className="text-lg text-neutral-medium max-w-3xl mx-auto mb-12">
-            Nós cuidamos dos seus problemas de saúde e bem-estar, sem sair de casa. A Bravo ON é seu ecossistema de saúde digital para tratamentos online, com:
-          </motion.p>
-
-          <motion.div variants={itemVariants} className="flex flex-col gap-3 max-w-2xl mx-auto mb-12 text-left">
-            <div className="flex items-center gap-3">
-              <CheckCircle className="w-6 h-6 text-primary flex-shrink-0" />
-              <span className="text-lg text-secondary">Consulta 100% online e confidencial</span>
-            </div>
-            <div className="flex items-center gap-3">
-              <CheckCircle className="w-6 h-6 text-primary flex-shrink-0" />
-              <span className="text-lg text-secondary">Tratamento validado por profissionais de saúde</span>
-            </div>
-            <div className="flex items-center gap-3">
-              <CheckCircle className="w-6 h-6 text-primary flex-shrink-0" />
-              <span className="text-lg text-secondary">Entrega em casa com embalagem 100% discreta</span>
-            </div>
-          </motion.div>
-
-          <motion.div variants={itemVariants} className="flex gap-4 justify-center flex-wrap mb-20">
-            <Button size="lg" className="bg-primary hover:bg-primary-dark text-white group">
-              Fazer a Consulta Online
-              <ArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" />
-            </Button>
-            <Button size="lg" variant="outline">
-              Conhecer o Protocolo
-            </Button>
-          </motion.div>
-
-          {/* Stats */}
-          <motion.div variants={containerVariants} className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {[
-              { label: 'Consulta Online', icon: '💻' },
-              { label: 'Medicamentos Originais', icon: '💊' },
-              { label: 'Entregas Gratuitas', icon: '📦' },
-            ].map((stat, i) => (
-              <motion.div key={i} variants={itemVariants} className="p-6 bg-white rounded-lg shadow-lg border border-neutral-medium" whileHover={{ y: -5 }}>
-                <p className="text-3xl mb-2">{stat.icon}</p>
-                <p className="text-neutral-medium">{stat.label}</p>
+      {/* Hero Section with Image */}
+      <section className="relative min-h-screen flex items-center justify-center px-4 sm:px-6 lg:px-8 py-20 overflow-hidden">
+        <div className="max-w-7xl mx-auto w-full">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            {/* Left Content */}
+            <motion.div
+              className="flex flex-col justify-center"
+              variants={containerVariants}
+              initial="hidden"
+              animate="visible"
+            >
+              <motion.div variants={itemVariants} className="mb-6">
+                <Badge className="bg-primary/10 text-primary border-primary/20 text-sm">
+                  👋 Bem-vindo à Revolução da Saúde Digital
+                </Badge>
               </motion.div>
-            ))}
+
+              <motion.h1
+                variants={itemVariants}
+                className="text-6xl md:text-7xl font-serif font-bold text-secondary mb-6 leading-tight"
+              >
+                Rotina que cabe na vida real.
+              </motion.h1>
+
+              <motion.p variants={itemVariants} className="text-2xl text-primary font-semibold mb-4">
+                Tratamentos online, sem exposição.
+              </motion.p>
+
+              <motion.p variants={itemVariants} className="text-lg text-neutral-600 mb-8 max-w-xl">
+                Nós cuidamos dos seus problemas de saúde e bem-estar, sem sair de casa. Consulta 100% online, tratamento validado e entrega discreta.
+              </motion.p>
+
+              <motion.div variants={itemVariants} className="flex flex-col gap-3 mb-12">
+                <div className="flex items-center gap-3">
+                  <CheckCircle className="w-6 h-6 text-primary flex-shrink-0" />
+                  <span className="text-neutral-700">Consulta 100% online e confidencial</span>
+                </div>
+                <div className="flex items-center gap-3">
+                  <CheckCircle className="w-6 h-6 text-primary flex-shrink-0" />
+                  <span className="text-neutral-700">Tratamento validado por profissionais</span>
+                </div>
+                <div className="flex items-center gap-3">
+                  <CheckCircle className="w-6 h-6 text-primary flex-shrink-0" />
+                  <span className="text-neutral-700">Entrega em casa com embalagem discreta</span>
+                </div>
+              </motion.div>
+
+              <motion.div variants={itemVariants} className="flex gap-4 flex-wrap">
+                <Button size="lg" className="bg-primary hover:bg-primary-dark text-white group">
+                  Fazer Consulta Online
+                  <ArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                </Button>
+                <Button size="lg" variant="outline" className="border-neutral-300">
+                  Conhecer Protocolo
+                </Button>
+              </motion.div>
+            </motion.div>
+
+            {/* Right Image */}
+            <motion.div
+              className="relative h-96 lg:h-full min-h-96"
+              initial={{ opacity: 0, x: 50 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.8, delay: 0.3 }}
+            >
+              <div className="absolute inset-0 bg-gradient-to-br from-primary/20 to-accent/20 rounded-3xl overflow-hidden">
+                <img
+                  src="https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=600&h=600&fit=crop"
+                  alt="Saúde Digital"
+                  className="w-full h-full object-cover"
+                />
+              </div>
+            </motion.div>
+          </div>
+
+          {/* Social Proof */}
+          <motion.div
+            className="mt-20 pt-12 border-t border-neutral-200"
+            variants={containerVariants}
+            initial="hidden"
+            animate="visible"
+          >
+            <p className="text-center text-neutral-600 mb-8 font-medium">Confiado por mais de 50.000 pessoas</p>
+            <div className="flex justify-center gap-8 flex-wrap items-center">
+              {['TechCrunch', 'Forbes', 'Wired', 'The Verge'].map((brand, i) => (
+                <motion.div key={i} variants={itemVariants} className="text-neutral-400 font-semibold">
+                  {brand}
+                </motion.div>
+              ))}
+            </div>
           </motion.div>
-        </motion.div>
+        </div>
       </section>
 
-      {/* The Problem Section */}
-      <section ref={ref1} className="py-20 px-4 sm:px-6 lg:px-8 bg-neutral-light">
-        <div className="max-w-5xl mx-auto">
+      {/* Newsletter CTA - Prominent Section */}
+      <section className="py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-r from-primary/5 to-accent/5">
+        <div className="max-w-2xl mx-auto">
+          <motion.div
+            className="bg-white rounded-2xl shadow-xl p-8 md:p-12 border border-neutral-200"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            viewport={{ once: true }}
+          >
+            <h2 className="text-3xl md:text-4xl font-serif font-bold text-secondary mb-4 text-center">
+              Junte-se a 50.000+ pessoas
+            </h2>
+            <p className="text-lg text-neutral-600 text-center mb-8">
+              Receba dicas exclusivas sobre saúde digital, bem-estar e transformação pessoal direto no seu email.
+            </p>
+
+            <form className="flex flex-col gap-4">
+              <div className="flex flex-col sm:flex-row gap-3">
+                <input
+                  type="email"
+                  placeholder="seu@email.com"
+                  className="flex-1 px-4 py-3 rounded-lg border border-neutral-300 focus:outline-none focus:ring-2 focus:ring-primary"
+                />
+                <Button className="bg-primary hover:bg-primary-dark text-white px-8">
+                  Inscrever
+                </Button>
+              </div>
+              <p className="text-sm text-neutral-500 text-center">
+                Sem spam. Apenas conteúdo valioso. Cancele quando quiser.
+              </p>
+            </form>
+
+            <div className="mt-8 pt-8 border-t border-neutral-200 grid grid-cols-3 gap-4 text-center">
+              <div>
+                <p className="text-2xl font-bold text-primary">50K+</p>
+                <p className="text-sm text-neutral-600">Inscritos</p>
+              </div>
+              <div>
+                <p className="text-2xl font-bold text-primary">98%</p>
+                <p className="text-sm text-neutral-600">Satisfação</p>
+              </div>
+              <div>
+                <p className="text-2xl font-bold text-primary">24/7</p>
+                <p className="text-sm text-neutral-600">Suporte</p>
+              </div>
+            </div>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* How Can I Help You - Grid Section */}
+      <section ref={ref1} className="py-20 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto">
           <motion.div
             className="text-center mb-16"
             initial={{ opacity: 0, y: 20 }}
             animate={inView1 ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
             transition={{ duration: 0.8 }}
           >
-            <h2 className="text-5xl font-serif font-bold text-secondary mb-4">O Problema</h2>
-            <h3 className="text-3xl font-serif font-bold text-primary mb-8">A Paralisia Invisível do Primeiro Passo</h3>
-          </motion.div>
-
-          <motion.div
-            className="space-y-8"
-            variants={containerVariants}
-            initial="hidden"
-            animate={inView1 ? 'visible' : 'hidden'}
-          >
-            <motion.div variants={itemVariants} className="bg-white p-8 rounded-lg shadow-md border-l-4 border-primary">
-              <p className="text-lg text-neutral-medium mb-4">
-                Você sabe que tem algo incomodando. O espelho, a hora H, o cansaço sem fim.
-              </p>
-              <p className="text-lg text-neutral-medium mb-4">
-                Mas só de pensar em marcar consulta, esperar em sala cheia e falar disso cara a cara… já dá aquela "preguiça" e você adia.
-              </p>
-              <p className="text-lg text-secondary font-semibold">
-                O problema não é falta de tratamento. É o modelo antigo de cuidado, que exige sua energia e seu tempo quando você só queria praticidade.
-              </p>
-            </motion.div>
-
-            <motion.div variants={itemVariants} className="bg-white p-8 rounded-lg shadow-md">
-              <p className="text-lg text-neutral-medium">
-                Distância, burocracia e medo de julgamento travam o primeiro passo. Não é você, é o sistema que está totalmente defasado.
-              </p>
-              <p className="text-lg text-neutral-medium mt-4">
-                Resultado: você sofre em silêncio — e a ansiedade cresce junto com a sensação de perder o controle.
-              </p>
-            </motion.div>
-          </motion.div>
-        </div>
-      </section>
-
-      {/* Solution Section */}
-      <section ref={ref2} className="py-20 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-5xl mx-auto">
-          <motion.div
-            className="text-center mb-16"
-            initial={{ opacity: 0, y: 20 }}
-            animate={inView2 ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-            transition={{ duration: 0.8 }}
-          >
-            <h2 className="text-5xl font-serif font-bold text-secondary mb-4">Solução: Protocolo Bravo ON</h2>
-            <p className="text-xl text-neutral-medium max-w-3xl mx-auto">
-              Um sistema completo para retomar o controle da sua saúde e bem-estar com agilidade, sem consulta presencial e sem a burocracia que faz você adiar.
-            </p>
-          </motion.div>
-
-          <motion.div
-            className="grid grid-cols-1 md:grid-cols-3 gap-8"
-            variants={containerVariants}
-            initial="hidden"
-            animate={inView2 ? 'visible' : 'hidden'}
-          >
-            {[
-              {
-                icon: <Lock className="w-8 h-8" />,
-                title: 'O Diagnóstico da Confiança',
-                desc: 'Avaliação online, 100% confidencial',
-              },
-              {
-                icon: <Zap className="w-8 h-8" />,
-                title: 'O Plano de Ação Personalizado',
-                desc: 'Plano individual validado por médico',
-              },
-              {
-                icon: <Heart className="w-8 h-8" />,
-                title: 'A Caixa da Tranquilidade',
-                desc: 'Tratamento chegando em casa, em embalagem neutra',
-              },
-            ].map((item, i) => (
-              <motion.div key={i} variants={itemVariants} whileHover={{ y: -10 }}>
-                <Card className="border-neutral-medium hover:shadow-xl transition-all duration-300 h-full">
-                  <CardHeader>
-                    <div className="w-12 h-12 rounded-lg bg-gradient-to-br from-primary to-primary-dark text-white flex items-center justify-center mb-4">
-                      {item.icon}
-                    </div>
-                    <CardTitle className="text-xl">{item.title}</CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <p className="text-neutral-medium">{item.desc}</p>
-                  </CardContent>
-                </Card>
-              </motion.div>
-            ))}
-          </motion.div>
-
-          <motion.div
-            variants={itemVariants}
-            className="mt-12 p-8 bg-primary/10 rounded-lg border border-primary/20 text-center"
-          >
-            <p className="text-lg text-secondary font-semibold">
-              Se o que mais te trava hoje é a burocracia da consulta presencial, esse protocolo foi desenhado exatamente para você.
-            </p>
-          </motion.div>
-        </div>
-      </section>
-
-      {/* Products Section */}
-      <section ref={ref3} className="py-20 px-4 sm:px-6 lg:px-8 bg-neutral-light">
-        <div className="max-w-5xl mx-auto">
-          <motion.div
-            className="text-center mb-16"
-            initial={{ opacity: 0, y: 20 }}
-            animate={inView3 ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-            transition={{ duration: 0.8 }}
-          >
-            <h2 className="text-5xl font-serif font-bold text-secondary mb-4">Por onde você quer começar?</h2>
-            <p className="text-xl text-neutral-medium max-w-3xl mx-auto">
-              Escolha a área que mais está pesando no seu dia a dia — e comece com um cuidado 100% online, discreto e validado por profissionais de saúde.
+            <h2 className="text-5xl font-serif font-bold text-secondary mb-4">Como posso ajudar você?</h2>
+            <p className="text-xl text-neutral-600 max-w-3xl mx-auto">
+              Escolha a área que mais está pesando no seu dia a dia e comece sua transformação.
             </p>
           </motion.div>
 
@@ -263,31 +258,46 @@ export default function BravoONTeste1() {
             className="grid grid-cols-1 md:grid-cols-2 gap-8"
             variants={containerVariants}
             initial="hidden"
-            animate={inView3 ? 'visible' : 'hidden'}
+            animate={inView1 ? 'visible' : 'hidden'}
           >
             {[
               {
-                title: 'Tratar Queda de Cabelo (Bravo Hair)',
-                desc: 'Recupere a segurança ao se olhar no espelho com um tratamento capilar completo, com avaliação online e orientação profissional — sem clínica e com entrega discreta em casa.',
                 icon: '💇',
+                title: 'Tratar Queda de Cabelo',
+                desc: 'Recupere a confiança com nosso protocolo capilar completo, 100% online.',
+                link: 'Começar com Bravo Hair',
               },
               {
-                title: 'Superar a Baixa Potência na cama (Bravo Max)',
-                desc: 'Deixe o medo de falhar na hora H no passado com um plano terapêutico discreto, seguro e acompanhado, do jeito certo — sem constrangimento e com entrega em casa.',
                 icon: '💪',
+                title: 'Superar Baixa Performance',
+                desc: 'Deixe o medo no passado com um plano terapêutico discreto e seguro.',
+                link: 'Começar com Bravo Max',
               },
-            ].map((product, i) => (
+              {
+                icon: '😴',
+                title: 'Melhorar Qualidade do Sono',
+                desc: 'Durma melhor com orientações personalizadas de um especialista.',
+                link: 'Explorar Protocolo de Sono',
+              },
+              {
+                icon: '🧠',
+                title: 'Aumentar Foco e Produtividade',
+                desc: 'Recupere sua concentração com técnicas comprovadas e acompanhamento.',
+                link: 'Descobrir Protocolo Cognitivo',
+              },
+            ].map((item, i) => (
               <motion.div key={i} variants={itemVariants} whileHover={{ y: -10 }}>
-                <Card className="border-neutral-medium hover:shadow-xl transition-all duration-300 h-full">
+                <Card className="border-neutral-200 hover:shadow-2xl transition-all duration-300 h-full group cursor-pointer">
                   <CardHeader>
-                    <div className="text-4xl mb-4">{product.icon}</div>
-                    <CardTitle className="text-2xl">{product.title}</CardTitle>
+                    <div className="text-5xl mb-4">{item.icon}</div>
+                    <CardTitle className="text-2xl group-hover:text-primary transition-colors">{item.title}</CardTitle>
                   </CardHeader>
                   <CardContent>
-                    <p className="text-neutral-medium mb-6">{product.desc}</p>
-                    <Button className="w-full bg-primary hover:bg-primary-dark">
-                      Começar Agora
-                    </Button>
+                    <p className="text-neutral-600 mb-6">{item.desc}</p>
+                    <a href="#" className="text-primary font-semibold hover:underline flex items-center gap-2">
+                      {item.link}
+                      <ArrowRight className="w-4 h-4" />
+                    </a>
                   </CardContent>
                 </Card>
               </motion.div>
@@ -296,181 +306,388 @@ export default function BravoONTeste1() {
         </div>
       </section>
 
-      {/* How It Works */}
-      <section ref={ref4} className="py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-secondary to-primary-dark text-white">
-        <div className="max-w-5xl mx-auto">
-          <motion.h2
-            className="text-5xl font-serif font-bold text-center mb-16"
+      {/* Promotional Section - Side by Side */}
+      <section className="py-20 px-4 sm:px-6 lg:px-8 bg-neutral-50">
+        <div className="max-w-7xl mx-auto">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            {/* Image */}
+            <motion.div
+              className="relative h-96 lg:h-full min-h-96 order-2 lg:order-1"
+              initial={{ opacity: 0, x: -50 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.8 }}
+              viewport={{ once: true }}
+            >
+              <div className="absolute inset-0 bg-gradient-to-br from-primary/20 to-accent/20 rounded-3xl overflow-hidden">
+                <img
+                  src="https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=600&h=600&fit=crop"
+                  alt="Bravo ON Kit"
+                  className="w-full h-full object-cover"
+                />
+              </div>
+            </motion.div>
+
+            {/* Content */}
+            <motion.div
+              className="order-1 lg:order-2"
+              initial={{ opacity: 0, x: 50 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.8 }}
+              viewport={{ once: true }}
+            >
+              <Badge className="bg-primary/10 text-primary border-primary/20 mb-4">✨ Exclusivo</Badge>
+              <h2 className="text-4xl md:text-5xl font-serif font-bold text-secondary mb-6">
+                Kit Completo Bravo ON
+              </h2>
+              <p className="text-lg text-neutral-600 mb-4">
+                Tudo que você precisa para começar sua transformação em um único lugar. Consulta, tratamento e acompanhamento profissional.
+              </p>
+              <p className="text-lg text-neutral-600 mb-8">
+                Receba em casa com embalagem 100% discreta e comece a ver resultados em 30 dias.
+              </p>
+
+              <ul className="space-y-3 mb-8">
+                {[
+                  'Avaliação online com especialista',
+                  'Plano personalizado para seu caso',
+                  'Medicamentos originais',
+                  'Acompanhamento contínuo',
+                  'Suporte 24/7',
+                ].map((item, i) => (
+                  <li key={i} className="flex items-center gap-3">
+                    <CheckCircle className="w-5 h-5 text-primary flex-shrink-0" />
+                    <span className="text-neutral-700">{item}</span>
+                  </li>
+                ))}
+              </ul>
+
+              <Button size="lg" className="bg-primary hover:bg-primary-dark text-white">
+                Conhecer o Kit
+                <ArrowRight className="ml-2 w-4 h-4" />
+              </Button>
+            </motion.div>
+          </div>
+        </div>
+      </section>
+
+      {/* About Section */}
+      <section ref={ref2} className="py-20 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            {/* Image */}
+            <motion.div
+              className="relative h-96 lg:h-full min-h-96"
+              initial={{ opacity: 0, x: -50 }}
+              animate={inView2 ? { opacity: 1, x: 0 } : { opacity: 0, x: -50 }}
+              transition={{ duration: 0.8 }}
+            >
+              <div className="absolute inset-0 bg-gradient-to-br from-primary/20 to-accent/20 rounded-3xl overflow-hidden">
+                <img
+                  src="https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=600&h=600&fit=crop"
+                  alt="Sobre Bravo ON"
+                  className="w-full h-full object-cover"
+                />
+              </div>
+            </motion.div>
+
+            {/* Content */}
+            <motion.div
+              ref={ref2}
+              initial={{ opacity: 0, x: 50 }}
+              animate={inView2 ? { opacity: 1, x: 0 } : { opacity: 0, x: 50 }}
+              transition={{ duration: 0.8 }}
+            >
+              <h2 className="text-5xl font-serif font-bold text-secondary mb-6">
+                Sobre a Bravo ON
+              </h2>
+              <p className="text-lg text-neutral-600 mb-4">
+                Nascemos com uma missão simples: remover as barreiras que impedem as pessoas de cuidar da sua saúde e bem-estar.
+              </p>
+              <p className="text-lg text-neutral-600 mb-4">
+                Sabemos que a burocracia, o medo do julgamento e a falta de tempo são os maiores inimigos da transformação pessoal. Por isso, criamos um protocolo que coloca você em primeiro lugar.
+              </p>
+              <p className="text-lg text-neutral-600 mb-8">
+                Hoje, mais de 50.000 pessoas confiam em nós para sua saúde digital. E você? Está pronto para começar?
+              </p>
+
+              <div className="grid grid-cols-2 gap-6 mb-8">
+                <div>
+                  <p className="text-3xl font-bold text-primary">50K+</p>
+                  <p className="text-neutral-600">Pessoas Transformadas</p>
+                </div>
+                <div>
+                  <p className="text-3xl font-bold text-primary">98%</p>
+                  <p className="text-neutral-600">Taxa de Satisfação</p>
+                </div>
+              </div>
+
+              <Button size="lg" variant="outline" className="border-neutral-300">
+                Ler Nossa História Completa
+              </Button>
+            </motion.div>
+          </div>
+        </div>
+      </section>
+
+      {/* Videos Carousel */}
+      <section ref={ref3} className="py-20 px-4 sm:px-6 lg:px-8 bg-neutral-50">
+        <div className="max-w-7xl mx-auto">
+          <motion.div
+            className="text-center mb-16"
+            initial={{ opacity: 0, y: 20 }}
+            animate={inView3 ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+            transition={{ duration: 0.8 }}
+          >
+            <h2 className="text-5xl font-serif font-bold text-secondary mb-4">Assista Meus Vídeos Mais Populares</h2>
+            <p className="text-xl text-neutral-600">Aprenda com conteúdo que já ajudou milhares de pessoas</p>
+          </motion.div>
+
+          <div className="relative">
+            <motion.div
+              className="grid grid-cols-1 md:grid-cols-3 gap-8"
+              initial={{ opacity: 0 }}
+              animate={inView3 ? { opacity: 1 } : { opacity: 0 }}
+              transition={{ duration: 0.8 }}
+            >
+              {videos.slice(carouselIndex, carouselIndex + 3).map((video, i) => (
+                <motion.div
+                  key={i}
+                  whileHover={{ y: -10 }}
+                  className="group cursor-pointer"
+                >
+                  <Card className="border-neutral-200 hover:shadow-xl transition-all duration-300 h-full overflow-hidden">
+                    <div className="relative h-48 bg-gradient-to-br from-primary/20 to-accent/20 overflow-hidden">
+                      <img
+                        src={`https://images.unsplash.com/photo-${1576091160550 + i}?w=400&h=300&fit=crop`}
+                        alt={video.title}
+                        className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
+                      />
+                      <div className="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                        <div className="w-16 h-16 bg-white rounded-full flex items-center justify-center">
+                          <div className="w-0 h-0 border-l-8 border-l-primary border-t-4 border-t-transparent border-b-4 border-b-transparent ml-1" />
+                        </div>
+                      </div>
+                    </div>
+                    <CardContent className="pt-6">
+                      <h3 className="font-semibold text-neutral-900 mb-2 group-hover:text-primary transition-colors">
+                        {video.title}
+                      </h3>
+                      <p className="text-sm text-neutral-600">{video.views} visualizações</p>
+                    </CardContent>
+                  </Card>
+                </motion.div>
+              ))}
+            </motion.div>
+
+            {/* Carousel Controls */}
+            <div className="flex justify-center gap-4 mt-12">
+              <button
+                onClick={prevVideo}
+                className="p-3 rounded-full border border-neutral-300 hover:bg-neutral-100 transition-colors"
+              >
+                <ChevronLeft className="w-6 h-6 text-neutral-600" />
+              </button>
+              <button
+                onClick={nextVideo}
+                className="p-3 rounded-full border border-neutral-300 hover:bg-neutral-100 transition-colors"
+              >
+                <ChevronRight className="w-6 h-6 text-neutral-600" />
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Resources Carousel */}
+      <section ref={ref4} className="py-20 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto">
+          <motion.div
+            className="text-center mb-16"
             initial={{ opacity: 0, y: 20 }}
             animate={inView4 ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
             transition={{ duration: 0.8 }}
           >
-            Como funciona o Protocolo Bravo ON?
-          </motion.h2>
-
-          <motion.p
-            className="text-xl text-center text-white/80 max-w-3xl mx-auto mb-16"
-            initial={{ opacity: 0 }}
-            animate={inView4 ? { opacity: 1 } : { opacity: 0 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-          >
-            Um processo simples, discreto e guiado — do começo ao fim.
-          </motion.p>
-
-          <motion.div
-            className="grid grid-cols-1 md:grid-cols-4 gap-8"
-            variants={containerVariants}
-            initial="hidden"
-            animate={inView4 ? 'visible' : 'hidden'}
-          >
-            {[
-              {
-                step: 1,
-                title: 'Avaliação 100% online e confidencial',
-                desc: 'Você responde a um questionário rápido e em um ambiente seguro, discreto e sem julgamentos.',
-              },
-              {
-                step: 2,
-                title: 'Plano de tratamento só para você',
-                desc: 'Com base na avaliação, o profissional define um plano individual, adequado ao seu caso.',
-              },
-              {
-                step: 3,
-                title: 'Entrega em casa com embalagem discreta',
-                desc: 'Seu tratamento é enviado para sua casa em embalagem neutra — com velocidade e descrição.',
-              },
-              {
-                step: 4,
-                title: 'Acompanhamento contínuo Bravo ON',
-                desc: 'Você acompanha tudo pelo celular, tira dúvidas com a equipe de saúde e ajusta o plano quando necessário.',
-              },
-            ].map((item, i) => (
-              <motion.div key={i} variants={itemVariants} whileHover={{ scale: 1.05 }}>
-                <div className="flex flex-col items-center text-center">
-                  <motion.div
-                    className="w-16 h-16 rounded-full bg-white/20 flex items-center justify-center text-2xl font-bold mb-4 border-2 border-white/30"
-                    whileHover={{ scale: 1.2, rotate: 360 }}
-                    transition={{ duration: 0.6 }}
-                  >
-                    {item.step}
-                  </motion.div>
-                  <h3 className="text-lg font-medium mb-2">{item.title}</h3>
-                  <p className="text-white/70 text-sm">{item.desc}</p>
-                </div>
-              </motion.div>
-            ))}
+            <h2 className="text-5xl font-serif font-bold text-secondary mb-4">Confira Meus Recursos Mais Populares</h2>
+            <p className="text-xl text-neutral-600">Ferramentas e guias para sua transformação</p>
           </motion.div>
+
+          <div className="relative">
+            <motion.div
+              className="grid grid-cols-1 md:grid-cols-3 gap-8"
+              initial={{ opacity: 0 }}
+              animate={inView4 ? { opacity: 1 } : { opacity: 0 }}
+              transition={{ duration: 0.8 }}
+            >
+              {resources.slice(resourceIndex, resourceIndex + 3).map((resource, i) => (
+                <motion.div key={i} whileHover={{ y: -10 }}>
+                  <Card className="border-neutral-200 hover:shadow-xl transition-all duration-300 h-full">
+                    <CardHeader>
+                      <div className="w-12 h-12 rounded-lg bg-gradient-to-br from-primary to-primary-dark text-white flex items-center justify-center mb-4 text-xl">
+                        📄
+                      </div>
+                      <CardTitle className="text-xl">{resource.title}</CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                      <p className="text-neutral-600 mb-6">{resource.type}</p>
+                      <a href="#" className="text-primary font-semibold hover:underline flex items-center gap-2">
+                        Acessar
+                        <ArrowRight className="w-4 h-4" />
+                      </a>
+                    </CardContent>
+                  </Card>
+                </motion.div>
+              ))}
+            </motion.div>
+
+            {/* Carousel Controls */}
+            <div className="flex justify-center gap-4 mt-12">
+              <button
+                onClick={prevResource}
+                className="p-3 rounded-full border border-neutral-300 hover:bg-neutral-100 transition-colors"
+              >
+                <ChevronLeft className="w-6 h-6 text-neutral-600" />
+              </button>
+              <button
+                onClick={nextResource}
+                className="p-3 rounded-full border border-neutral-300 hover:bg-neutral-100 transition-colors"
+              >
+                <ChevronRight className="w-6 h-6 text-neutral-600" />
+              </button>
+            </div>
+          </div>
         </div>
       </section>
 
-      {/* Why Choose Section */}
-      <section className="py-20 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-5xl mx-auto">
-          <motion.div
-            className="text-center mb-16"
+      {/* Final CTA */}
+      <section className="py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-r from-primary to-primary-dark text-white">
+        <div className="max-w-4xl mx-auto text-center">
+          <motion.h2
+            className="text-5xl font-serif font-bold mb-6"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
             viewport={{ once: true }}
           >
-            <h2 className="text-5xl font-serif font-bold text-secondary mb-4">Por que complicar se pode simplificar com a Bravo ON?</h2>
-          </motion.div>
-
-          <motion.div
-            className="grid grid-cols-1 md:grid-cols-3 gap-8"
-            variants={containerVariants}
-            initial="hidden"
-            whileInView="visible"
+            Pronto para começar sua transformação?
+          </motion.h2>
+          <motion.p
+            className="text-xl text-white/80 mb-8 max-w-2xl mx-auto"
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            transition={{ duration: 0.8, delay: 0.2 }}
             viewport={{ once: true }}
           >
-            {[
-              {
-                title: 'Chega de Sentir vergonha',
-                icon: <Shield className="w-8 h-8" />,
-                desc: 'Todo o processo é pensado para proteger sua privacidade do começo ao fim.',
-              },
-              {
-                title: 'Chega de Perder tempo',
-                icon: <Zap className="w-8 h-8" />,
-                desc: 'Nós levamos consulta, tratamento e o medicamento até você, em um único fluxo, com zero esforço.',
-              },
-              {
-                title: 'Chega de Tratamentos genéricos',
-                icon: <Heart className="w-8 h-8" />,
-                desc: 'Você tem avaliação individual, plano personalizado e acompanhamento durante a jornada de cuidado.',
-              },
-            ].map((item, i) => (
-              <motion.div key={i} variants={itemVariants} whileHover={{ y: -10 }}>
-                <Card className="border-neutral-medium hover:shadow-xl transition-all duration-300 h-full">
-                  <CardHeader>
-                    <div className="w-12 h-12 rounded-lg bg-gradient-to-br from-primary to-primary-dark text-white flex items-center justify-center mb-4">
-                      {item.icon}
-                    </div>
-                    <CardTitle className="text-xl">{item.title}</CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <p className="text-neutral-medium">{item.desc}</p>
-                  </CardContent>
-                </Card>
-              </motion.div>
-            ))}
-          </motion.div>
-        </div>
-      </section>
-
-      {/* CTA Section */}
-      <section className="py-20 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-4xl mx-auto">
+            Junte-se a mais de 50.000 pessoas que já transformaram suas vidas com a Bravo ON.
+          </motion.p>
           <motion.div
-            className="bg-gradient-to-br from-primary to-primary-dark rounded-2xl p-12 text-white text-center"
-            initial={{ opacity: 0, scale: 0.9 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.8 }}
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.4 }}
             viewport={{ once: true }}
           >
-            <h2 className="text-4xl font-serif font-bold mb-4">Pronto para começar?</h2>
-            <p className="text-lg text-white/80 mb-8 max-w-2xl mx-auto">
-              Praticidade para você. Seriedade para a saúde.
-            </p>
-            <Button size="lg" className="bg-white text-primary hover:bg-neutral-light">
-              Fazer a Consulta Online
+            <Button size="lg" className="bg-white text-primary hover:bg-neutral-100">
+              Fazer Consulta Online Agora
             </Button>
           </motion.div>
         </div>
       </section>
 
       {/* Footer */}
-      <footer className="bg-secondary text-white py-12 px-4 sm:px-6 lg:px-8">
+      <footer className="bg-secondary text-white py-16 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto">
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
-            <div>
-              <h3 className="font-serif font-bold text-lg mb-2">Bravo ON</h3>
-              <p className="text-white/70 text-sm">Saúde Digital Revolucionária</p>
+          {/* Newsletter in Footer */}
+          <div className="mb-16 pb-16 border-b border-white/10">
+            <div className="max-w-2xl mx-auto text-center">
+              <h3 className="text-2xl font-serif font-bold mb-4">Não perca nossas atualizações</h3>
+              <p className="text-white/70 mb-6">Receba dicas exclusivas e conteúdo premium direto no seu email.</p>
+              <form className="flex flex-col sm:flex-row gap-3">
+                <input
+                  type="email"
+                  placeholder="seu@email.com"
+                  className="flex-1 px-4 py-3 rounded-lg bg-white/10 border border-white/20 text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-white"
+                />
+                <Button className="bg-white text-primary hover:bg-neutral-100">
+                  Inscrever
+                </Button>
+              </form>
             </div>
+          </div>
+
+          {/* Main Footer Content */}
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
+            {/* Brand */}
             <div>
-              <h4 className="font-medium mb-3">Produtos</h4>
-              <ul className="text-sm text-white/70 space-y-1">
-                <li>Bravo Hair</li>
-                <li>Bravo Max</li>
+              <h3 className="font-serif font-bold text-lg mb-4">Bravo ON</h3>
+              <p className="text-white/70 text-sm mb-6">Saúde Digital Revolucionária</p>
+              <div className="flex gap-4">
+                {['Facebook', 'Instagram', 'Twitter', 'LinkedIn'].map((social, i) => (
+                  <a key={i} href="#" className="text-white/50 hover:text-white transition-colors text-sm">
+                    {social}
+                  </a>
+                ))}
+              </div>
+            </div>
+
+            {/* Products */}
+            <div>
+              <h4 className="font-semibold mb-4">Produtos</h4>
+              <ul className="space-y-2 text-white/70 text-sm">
+                <li><a href="#" className="hover:text-white transition-colors">Bravo Hair</a></li>
+                <li><a href="#" className="hover:text-white transition-colors">Bravo Max</a></li>
+                <li><a href="#" className="hover:text-white transition-colors">Protocolo Completo</a></li>
               </ul>
             </div>
+
+            {/* Company */}
             <div>
-              <h4 className="font-medium mb-3">Empresa</h4>
-              <ul className="text-sm text-white/70 space-y-1">
-                <li>Sobre</li>
-                <li>Contato</li>
+              <h4 className="font-semibold mb-4">Empresa</h4>
+              <ul className="space-y-2 text-white/70 text-sm">
+                <li><a href="#" className="hover:text-white transition-colors">Sobre Nós</a></li>
+                <li><a href="#" className="hover:text-white transition-colors">Blog</a></li>
+                <li><a href="#" className="hover:text-white transition-colors">Contato</a></li>
               </ul>
             </div>
+
+            {/* Legal */}
             <div>
-              <h4 className="font-medium mb-3">Legal</h4>
-              <ul className="text-sm text-white/70 space-y-1">
-                <li>Privacidade</li>
-                <li>Termos</li>
+              <h4 className="font-semibold mb-4">Legal</h4>
+              <ul className="space-y-2 text-white/70 text-sm">
+                <li><a href="#" className="hover:text-white transition-colors">Privacidade</a></li>
+                <li><a href="#" className="hover:text-white transition-colors">Termos</a></li>
+                <li><a href="#" className="hover:text-white transition-colors">Cookies</a></li>
               </ul>
             </div>
           </div>
-          <div className="border-t border-white/10 pt-8 text-center text-sm text-white/70">
+
+          {/* Contact Info */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12 pb-12 border-b border-white/10">
+            <div className="flex gap-4">
+              <Mail className="w-5 h-5 text-primary flex-shrink-0 mt-1" />
+              <div>
+                <p className="text-sm text-white/70">Email</p>
+                <p className="font-semibold">contato@bravoon.com</p>
+              </div>
+            </div>
+            <div className="flex gap-4">
+              <Phone className="w-5 h-5 text-primary flex-shrink-0 mt-1" />
+              <div>
+                <p className="text-sm text-white/70">Telefone</p>
+                <p className="font-semibold">+55 (11) 9999-9999</p>
+              </div>
+            </div>
+            <div className="flex gap-4">
+              <MapPin className="w-5 h-5 text-primary flex-shrink-0 mt-1" />
+              <div>
+                <p className="text-sm text-white/70">Localização</p>
+                <p className="font-semibold">São Paulo, Brasil</p>
+              </div>
+            </div>
+          </div>
+
+          {/* Bottom Footer */}
+          <div className="text-center text-white/50 text-sm">
             <p>© 2026 Bravo ON. Todos os direitos reservados.</p>
+            <p className="mt-2">Desenvolvido com ❤️ para sua saúde</p>
           </div>
         </div>
       </footer>
